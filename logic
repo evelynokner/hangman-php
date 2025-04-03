@@ -1,0 +1,6 @@
+HANGMAN GAME
+- while user wants to keep playing, run game loop
+- randomly pick from list of words when game starts
+- prompt user to guess letters
+- if user has 6 incorrect guesses, game ends
+- if user guesses all letters correctly, ask if they want to play again

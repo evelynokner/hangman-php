@@ -96,7 +96,7 @@ function make_guess(){
     // allow user to type in lowercase letters and they will convert to uppercase
     $user_guess = strtoupper(readline());
     
-    // if user guesses correctly, change letter display
+    // if user guesses correctly (apply_guess returns true), change letter display
     if (apply_guess($user_guess)){
         echo $user_guess, " is correct!\n\n";
         display_guessed_letter();
@@ -109,12 +109,21 @@ function make_guess(){
     }
 }
 
-function display_hangman(){
-    // if user guesses wrong, display the next value in $hangman_img
-    // if $hangman_img[6] is displayed, game over
-    global $hangman_img, $fails;
-    // display hangman image at position of number of fails
-    echo $hangman_img[$fails], "\n";
+// this function displays the user's correct guesses so they know the position of their guessed letter in the word (e.g. "PR_J__T")
+function apply_guess($user_guess){
+    global $random_word, $guessed_letters;
+    $correct = false;
+    // iterate through the word and see if the guessed letter matches a letter in the word
+    for($i = 0; $i < strlen($random_word); $i++){
+        $letter = $random_word[$i];
+        // if the user's guessed letter matches a letter in the random word, set $correct to true
+        if($letter == $user_guess){
+            $correct = true;
+            // add the correctly guessed letter to the array of guessed letters
+            array_push($guessed_letters, $letter);
+        }
+    }
+    return $correct;
 }
 
 // displays updated state of game after user guesses a correct letter
@@ -133,21 +142,12 @@ function display_guessed_letter(){
     echo $template;
 }
 
-// this function displays the user's correct guesses so they know the position of their guessed letter in the word (e.g. "PR_J__T")
-function apply_guess($user_guess){
-    global $random_word, $guessed_letters;
-    $correct = false;
-    // iterate through the word and see if the guessed letter matches a letter in the word
-    for($i = 0; $i < strlen($random_word); $i++){
-        $letter = $random_word[$i];
-        // if the user's guessed letter matches a letter in the random word, set $correct to true
-        if($letter == $user_guess){
-            $correct = true;
-            // add the correctly guessed letter to the array of guessed letters
-            array_push($guessed_letters, $letter);
-        }
-    }
-    return $correct;
+function display_hangman(){
+    // if user guesses wrong, display the next value in $hangman_img
+    // if $hangman_img[6] is displayed, game over
+    global $hangman_img, $fails;
+    // display hangman image at position of number of fails
+    echo $hangman_img[$fails], "\n";
 }
 
 // determines if game is over, returns boolean

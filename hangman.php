@@ -1,10 +1,12 @@
 <?php
-// HANGMAN GAME
-// while user wants to keep playing, run game loop
-// randomly pick from list of words when game starts
-// prompt user to guess letters
-// if user has 6 incorrect guesses, game ends
-// if user guesses all letters correctly, ask if they want to play again
+/* HANGMAN GAME
+   while user wants to keep playing, run game loop
+   randomly pick from list of words when game starts
+   prompt user to guess letters
+   if user has 6 incorrect guesses, game ends
+   if user guesses all letters correctly, game ends
+   when game ends, ask user if they want to play again 
+*/
 
 $hangman_img = ["
    +---+
@@ -43,8 +45,8 @@ $hangman_img = ["
   / \  |
       ==="];
 
+// list of words that will be randomly picked and stored in $random_word
 $words = ["SERVER", "GEORGIAN", "COMPUTER", "PROJECT"];
-// word randomly picked from $words array
 $random_word;
 // underscores display for the number of letters there are in the random word
 $template;
@@ -53,9 +55,11 @@ $fails = 0;
 $user_guess;
 $guessed_letters = array();
 
+// when user first runs program, ask if they want to play
 if(strtoupper(readline("Would you like to play Hangman?\nY for yes, N for no: ")) == "Y"){
     play_round();
-    if(readline("Play again?\n") == "Y"){
+    // when game ends, ask user if they wish to play again
+    if(strtoupper(readline("Play again?\n")) == "Y"){
         play_round();
     }
 }
@@ -77,12 +81,14 @@ function play_round(){
     } echo "\n\n";
     
     while(true){
+        // user can keep guessing while loop runs
         make_guess();
-        //display_hangman();
+        // if gameover is true, end game
         if(gameover()) break;
     } 
     echo "Thanks for playing!\n";
 }
+
 function make_guess(){
     global $hangman_img, $random_word, $fails;
     
@@ -134,7 +140,7 @@ function apply_guess($user_guess){
     // iterate through the word and see if the guessed letter matches a letter in the word
     for($i = 0; $i < strlen($random_word); $i++){
         $letter = $random_word[$i];
-        // if the user's guessed letter does match a letter in the random word, set $correct to true
+        // if the user's guessed letter matches a letter in the random word, set $correct to true
         if($letter == $user_guess){
             $correct = true;
             // add the correctly guessed letter to the array of guessed letters

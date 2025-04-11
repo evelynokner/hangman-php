@@ -1,5 +1,5 @@
 <?php
-// hangman game
+// HANGMAN GAME
 // while user wants to keep playing, run game loop
 // randomly pick from list of words when game starts
 // prompt user to guess letters
@@ -63,15 +63,16 @@ if(strtoupper(readline("Would you like to play Hangman?\nY for yes, N for no: ")
 function play_round(){
     global $words, $random_word, $hangman_img;
     $random_word = $words[array_rand($words, 1)];
-    echo $random_word, "\n";
     
-    echo $random_word, "\n";
+    // for testing purposes to check what the random word is
+    //echo $random_word, "\n";
+    
     // display first hangman image initially
     echo "$hangman_img[0]\n";
     
     // display this when game starts so user knows the number of letters in the word
     // for each letter in the randomly selected word, display "_"
-    for($i = 0; $i <= strlen($random_word)-1; $i++){
+    for($i = 0; $i < strlen($random_word); $i++){
         echo "_ ";
     } echo "\n\n";
     
@@ -85,7 +86,7 @@ function play_round(){
 function make_guess(){
     global $hangman_img, $random_word, $fails;
     
-    echo "Please guess a letter: ";
+    echo "\nPlease guess a letter: ";
     // allow user to type in lowercase letters and they will convert to uppercase
     $user_guess = strtoupper(readline());
     
@@ -112,11 +113,14 @@ function display_hangman(){
 
 // displays updated state of game after user guesses a correct letter
 function display_guessed_letter(){
-    global $guessed_letters, $random_word, $template;
+    global $random_word, $template, $guessed_letters;
+    // template is a string of underscores for the number of letters in the random word
     $template = str_repeat("_", strlen($random_word));
-    for($i=0; $i<=strlen($template)-1; $i++){
-       if (in_array($random_word[$i], $guessed_letters)){
-       	    //echo $word[$i], "\n";
+    // iterate through length of template
+    for($i = 0; $i < strlen($template); $i++){
+        // check if a guessed letter is in the random word
+        if(in_array($random_word[$i], $guessed_letters)){
+            // replace the underscore with the correctly guessed letter
             $template[$i] = $random_word[$i];
         }
     }
@@ -127,13 +131,14 @@ function display_guessed_letter(){
 function apply_guess($user_guess){
     global $random_word, $guessed_letters;
     $correct = false;
-    for($i = 0; $i <= strlen($random_word)-1; $i++){
+    // iterate through the word and see if the guessed letter matches a letter in the word
+    for($i = 0; $i < strlen($random_word); $i++){
         $letter = $random_word[$i];
+        // if the user's guessed letter does match a letter in the random word, set $correct to true
         if($letter == $user_guess){
             $correct = true;
+            // add the correctly guessed letter to the array of guessed letters
             array_push($guessed_letters, $letter);
-            // replace "_" with guessed letter
-            // return true;
         }
     }
     return $correct;

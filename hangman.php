@@ -153,9 +153,15 @@ function gameover(){
     global $fails, $template, $random_word;
     
     // player loses if number of fails reaches 6
-    if($fails == 6) return true;
+    if($fails == 6){
+        echo "\nSorry, you lost. ";
+        return true;
+    }
     // player wins if their guesses match the random word
-    if($template == $random_word) return true;
+    if($template == $random_word){
+        echo "\nCongrats, You won! ";
+        return true;
+    }
     return false;
 }
 
